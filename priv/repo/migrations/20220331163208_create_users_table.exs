@@ -11,6 +11,7 @@ defmodule Rocklivery.Repo.Migrations.CreateUsersTable do
       add :password_hash, :string
       add :name, :string
 
+      # insere data e hora
       timestamps()
     end
 
