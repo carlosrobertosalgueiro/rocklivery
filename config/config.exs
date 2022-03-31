@@ -10,6 +10,11 @@ import Config
 config :rocklivery,
   ecto_repos: [Rocklivery.Repo]
 
+# inseridindo UUidV4 unico
+config :rocklivery, Rocklivery.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 # Configures the endpoint
 config :rocklivery, RockliveryWeb.Endpoint,
   url: [host: "localhost"],
