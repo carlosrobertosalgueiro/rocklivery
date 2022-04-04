@@ -7,6 +7,9 @@ defmodule Rocklivery.User do
 
   @required_params [:age, :address, :cep, :cpf, :email, :password, :name]
 
+  # PASSA OS ENCODES QUE SERÃO MOSTRADOS NA VIEW
+  @derive {Jason.Encoder, only: [:id, :age, :email, :cpf, :name]}
+
   schema "users" do
     field :address, :string
     field :age, :integer
