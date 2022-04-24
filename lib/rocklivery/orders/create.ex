@@ -1,10 +1,12 @@
 defmodule Rocklivery.Orders.Create do
   import Ecto.Query
 
-  alias Rocklivery.{Item, Repo}
+  alias Rocklivery.{ Error, Item, Order, Repo}
 
     def call(params) do
-      fetch_items(  params)
+      params
+      |> fetch_items()
+      |> handle_items(params)
     end
 
     defp fetch_items(%{"items" => items_params}) do
@@ -37,4 +39,16 @@ defmodule Rocklivery.Orders.Create do
       end)
     {:ok, items}
     end
+
+    defp handle_items({:error, result}, _params), do: {:error, Error.build(:bad_request, result)}
+
+    defp handle_items({:ok, items}, params) do
+      params
+      |> Order.changeset(items)
+      |> Repo.insert()
+      |> handle_insert()
+    end
+
+    defp handle_insert({:ok, %Order{}} = order), do: order
+    defp handle_insert({:error, result}), do: {:error, Error.build(:bad_request, result)}
 end
