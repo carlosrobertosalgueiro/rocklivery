@@ -12,7 +12,7 @@ defmodule Rocklivery.Order do
   @payment_method [:money, :credit_card, :debit_card]
 
   # PASSA OS ENCODES QUE SERÃO MOSTRADOS NA VIEW
-  @derive {Jason.Encoder, only: @required_params ++ [:id]}
+  @derive {Jason.Encoder, only: @required_params ++ [:id, :items]}
 
   schema "orders" do
     field :address, :string
