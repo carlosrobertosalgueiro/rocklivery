@@ -1,10 +1,13 @@
 defmodule Rocklivery.Order do
   use Ecto.Schema
 
-  alias Rocklivery.{Item, User}
   import Ecto.Changeset
 
+  alias Rocklivery.{Item, User}
+
+
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
 
   @required_params [:address, :comments, :payment_method, :user_id]
   @payment_method [:money, :credit_card, :debit_card]
@@ -12,7 +15,7 @@ defmodule Rocklivery.Order do
   # PASSA OS ENCODES QUE SERÃO MOSTRADOS NA VIEW
   @derive {Jason.Encoder, only: @required_params ++ [:id]}
 
-  schema "items" do
+  schema "orders" do
     field :address, :string
     field :comments, :string
     field :payment_method, Ecto.Enum, values: @payment_method
@@ -27,7 +30,7 @@ defmodule Rocklivery.Order do
     struct
     |> cast(params, @required_params)
     |> validate_required(@required_params)
-    |> put_assoc(:item, items)
+    |> put_assoc(:items, items)
     |> validate_length(:address, min: 10)
     |> validate_length(:comments, min: 6)
   end
